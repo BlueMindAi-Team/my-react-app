@@ -3,10 +3,11 @@ import { Header } from './Header';
 import { AddTeacherForm } from './AddTeacherForm';
 import { TeacherList } from './TeacherList';
 import { SystemStatus } from './SystemStatus';
+import { PlatformCustomization } from './PlatformCustomization';
 import { useTeacher } from '../context/TeacherContext';
 
 export function Dashboard() {
-  const [activeTab, setActiveTab] = useState<'add' | 'manage' | 'status'>('add');
+  const [activeTab, setActiveTab] = useState<'add' | 'manage' | 'status' | 'customize'>('add');
   const { teachers } = useTeacher();
 
   return (
@@ -15,7 +16,7 @@ export function Dashboard() {
       
       <div className="container mx-auto px-4 sm:px-6 py-4 sm:py-8">
         {/* Navigation Tabs */}
-        <div className="flex flex-col sm:flex-row space-y-1 sm:space-y-0 sm:space-x-1 bg-white/10 backdrop-blur-sm rounded-xl p-1 mb-6 sm:mb-8 w-full sm:w-fit">
+        <div className="flex flex-col sm:flex-row space-y-1 sm:space-y-0 sm:space-x-1 bg-white/10 backdrop-blur-sm rounded-xl p-1 mb-6 sm:mb-8 w-full sm:w-fit overflow-x-auto">
           <button
             onClick={() => setActiveTab('add')}
             className={`px-4 sm:px-6 py-3 rounded-lg font-medium transition-all duration-300 text-sm sm:text-base ${
@@ -51,6 +52,16 @@ export function Dashboard() {
           >
             System Status
           </button>
+          <button
+            onClick={() => setActiveTab('customize')}
+            className={`px-4 sm:px-6 py-3 rounded-lg font-medium transition-all duration-300 text-sm sm:text-base whitespace-nowrap ${
+              activeTab === 'customize'
+                ? 'bg-white text-blue-900 shadow-lg'
+                : 'text-white/70 hover:text-white hover:bg-white/5'
+            }`}
+          >
+            Platform Settings
+          </button>
         </div>
 
         {/* Tab Content */}
@@ -58,6 +69,7 @@ export function Dashboard() {
           {activeTab === 'add' && <AddTeacherForm />}
           {activeTab === 'manage' && <TeacherList />}
           {activeTab === 'status' && <SystemStatus />}
+          {activeTab === 'customize' && <PlatformCustomization />}
         </div>
       </div>
     </div>
