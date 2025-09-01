@@ -1,17 +1,18 @@
 import React, { useState } from 'react';
 import { 
   User, BookOpen, Globe, Mail, Key, Copy, Check, 
-  Calendar, Clock, Trash2, AlertCircle, ExternalLink 
+  Calendar, Clock, Trash2, AlertCircle, ExternalLink, Square, CheckSquare
 } from 'lucide-react';
 import { useTeacher } from '../context/TeacherContext';
 import { Teacher } from '../types/Teacher';
 
 interface TeacherCardProps {
   teacher: Teacher;
+  showSelection?: boolean;
 }
 
-export function TeacherCard({ teacher }: TeacherCardProps) {
-  const { deleteTeacher } = useTeacher();
+export function TeacherCard({ teacher, showSelection = false }: TeacherCardProps) {
+  const { deleteTeacher, selectedTeachers, toggleTeacherSelection } = useTeacher();
   const [copiedField, setCopiedField] = useState<string | null>(null);
   const [showDeleteConfirm, setShowDeleteConfirm] = useState(false);
 
@@ -28,12 +29,27 @@ export function TeacherCard({ teacher }: TeacherCardProps) {
 
   const isExpired = new Date(teacher.subscriptionExpiry) < new Date();
   const daysUntilExpiry = Math.ceil((new Date(teacher.subscriptionExpiry).getTime() - new Date().getTime()) / (1000 * 60 * 60 * 24));
+  const isSelected = selectedTeachers.includes(teacher.id);
 
   return (
-    <div className="bg-white/10 backdrop-blur-md rounded-xl p-4 sm:p-6 border border-white/20 hover:bg-white/15 transition-all duration-300">
+    <div className={`bg-white/10 backdrop-blur-md rounded-xl p-4 sm:p-6 border transition-all duration-300 hover:bg-white/15 ${
+      isSelected ? 'border-blue-400 bg-blue-500/10 ring-2 ring-blue-400/50' : 'border-white/20'
+    }`}>
       {/* Header */}
       <div className="flex items-start justify-between mb-4 sm:mb-6">
         <div className="flex items-center space-x-3">
+          {showSelection && (
+            <button
+              onClick={() => toggleTeacherSelection(teacher.id)}
+              className="p-1 hover:bg-white/10 rounded transition-all duration-200"
+            >
+              {isSelected ? (
+                <CheckSquare className="w-5 h-5 text-blue-400" />
+              ) : (
+                <Square className="w-5 h-5 text-white/60 hover:text-white" />
+              )}
+            </button>
+          )}
           <div className="w-10 h-10 sm:w-12 sm:h-12 bg-gradient-to-br from-blue-500 to-emerald-500 rounded-xl flex items-center justify-center">
             <User className="w-5 h-5 sm:w-6 sm:h-6 text-white" />
           </div>
