@@ -224,6 +224,154 @@ export function PlatformCustomization() {
           </div>
         )}
 
+        {activeSection === 'typography' && (
+          <div className="space-y-6">
+            <h3 className="text-lg sm:text-xl font-bold text-white mb-4">Typography Settings</h3>
+            
+            {/* Font Family */}
+            <div>
+              <label className="block text-blue-200 text-sm font-medium mb-2">
+                Font Family
+              </label>
+              <select
+                value={tempSettings.typography.fontFamily}
+                onChange={(e) => setTempSettings(prev => ({
+                  ...prev,
+                  typography: { ...prev.typography, fontFamily: e.target.value }
+                }))}
+                className="w-full px-4 py-3 bg-white/5 border border-white/20 rounded-xl text-white focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-300"
+              >
+                <option value="Inter, system-ui, sans-serif" className="bg-gray-800">Inter (Modern)</option>
+                <option value="Georgia, serif" className="bg-gray-800">Georgia (Classic)</option>
+                <option value="Arial, sans-serif" className="bg-gray-800">Arial (Clean)</option>
+                <option value="Roboto, sans-serif" className="bg-gray-800">Roboto (Google)</option>
+                <option value="Poppins, sans-serif" className="bg-gray-800">Poppins (Friendly)</option>
+                <option value="Playfair Display, serif" className="bg-gray-800">Playfair (Elegant)</option>
+              </select>
+            </div>
+
+            {/* Typography Controls */}
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
+              {/* Heading Size */}
+              <div>
+                <label className="block text-blue-200 text-sm font-medium mb-3">
+                  Heading Size
+                </label>
+                <div className="space-y-2">
+                  {[
+                    { value: 'small', label: 'Small', size: 'text-lg' },
+                    { value: 'medium', label: 'Medium', size: 'text-xl' },
+                    { value: 'large', label: 'Large', size: 'text-2xl' }
+                  ].map((option) => (
+                    <button
+                      key={option.value}
+                      onClick={() => setTempSettings(prev => ({
+                        ...prev,
+                        typography: { ...prev.typography, headingSize: option.value as any }
+                      }))}
+                      className={`w-full text-left px-4 py-3 rounded-lg transition-all duration-300 ${
+                        tempSettings.typography.headingSize === option.value
+                          ? 'bg-blue-500 text-white'
+                          : 'bg-white/5 text-blue-300 hover:bg-white/10'
+                      }`}
+                    >
+                      <span className={`${option.size} font-bold`}>{option.label}</span>
+                    </button>
+                  ))}
+                </div>
+              </div>
+
+              {/* Body Size */}
+              <div>
+                <label className="block text-blue-200 text-sm font-medium mb-3">
+                  Body Text Size
+                </label>
+                <div className="space-y-2">
+                  {[
+                    { value: 'small', label: 'Small', size: 'text-sm' },
+                    { value: 'medium', label: 'Medium', size: 'text-base' },
+                    { value: 'large', label: 'Large', size: 'text-lg' }
+                  ].map((option) => (
+                    <button
+                      key={option.value}
+                      onClick={() => setTempSettings(prev => ({
+                        ...prev,
+                        typography: { ...prev.typography, bodySize: option.value as any }
+                      }))}
+                      className={`w-full text-left px-4 py-3 rounded-lg transition-all duration-300 ${
+                        tempSettings.typography.bodySize === option.value
+                          ? 'bg-blue-500 text-white'
+                          : 'bg-white/5 text-blue-300 hover:bg-white/10'
+                      }`}
+                    >
+                      <span className={option.size}>{option.label}</span>
+                    </button>
+                  ))}
+                </div>
+              </div>
+
+              {/* Line Height */}
+              <div>
+                <label className="block text-blue-200 text-sm font-medium mb-3">
+                  Line Height
+                </label>
+                <div className="space-y-2">
+                  {[
+                    { value: 'tight', label: 'Tight', class: 'leading-tight' },
+                    { value: 'normal', label: 'Normal', class: 'leading-normal' },
+                    { value: 'relaxed', label: 'Relaxed', class: 'leading-relaxed' }
+                  ].map((option) => (
+                    <button
+                      key={option.value}
+                      onClick={() => setTempSettings(prev => ({
+                        ...prev,
+                        typography: { ...prev.typography, lineHeight: option.value as any }
+                      }))}
+                      className={`w-full text-left px-4 py-3 rounded-lg transition-all duration-300 ${
+                        tempSettings.typography.lineHeight === option.value
+                          ? 'bg-blue-500 text-white'
+                          : 'bg-white/5 text-blue-300 hover:bg-white/10'
+                      }`}
+                    >
+                      <span className={option.class}>{option.label}</span>
+                    </button>
+                  ))}
+                </div>
+              </div>
+
+              {/* Font Weight */}
+              <div>
+                <label className="block text-blue-200 text-sm font-medium mb-3">
+                  Font Weight
+                </label>
+                <div className="space-y-2">
+                  {[
+                    { value: 'light', label: 'Light', class: 'font-light' },
+                    { value: 'normal', label: 'Normal', class: 'font-normal' },
+                    { value: 'medium', label: 'Medium', class: 'font-medium' },
+                    { value: 'bold', label: 'Bold', class: 'font-bold' }
+                  ].map((option) => (
+                    <button
+                      key={option.value}
+                      onClick={() => setTempSettings(prev => ({
+                        ...prev,
+                        typography: { ...prev.typography, fontWeight: option.value as any }
+                      }))}
+                      className={`w-full text-left px-4 py-3 rounded-lg transition-all duration-300 ${
+                        tempSettings.typography.fontWeight === option.value
+                          ? 'bg-blue-500 text-white'
+                          : 'bg-white/5 text-blue-300 hover:bg-white/10'
+                      }`}
+                    >
+                      <span className={option.class}>{option.label}</span>
+                    </button>
+                  ))}
+                </div>
+              </div>
+            </div>
+          </div>
+        )}
+
         {activeSection === 'contact' && (
           <div className="space-y-6">
             <h3 className="text-lg sm:text-xl font-bold text-white mb-4">Contact Information</h3>

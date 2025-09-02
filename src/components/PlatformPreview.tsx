@@ -10,7 +10,7 @@ interface PlatformPreviewProps {
 }
 
 export function PlatformPreview({ settings }: PlatformPreviewProps) {
-  const { platformName, logo, colors, contactInfo, content } = settings;
+  const { platformName, logo, colors, contactInfo, content, typography } = settings;
 
   const logoAlignment = {
     left: 'justify-start',
@@ -25,8 +25,45 @@ export function PlatformPreview({ settings }: PlatformPreviewProps) {
     linkedin: Linkedin
   };
 
+  const getTypographyClasses = () => {
+    const headingSizes = {
+      small: 'text-lg',
+      medium: 'text-xl',
+      large: 'text-2xl'
+    };
+    
+    const bodySizes = {
+      small: 'text-sm',
+      medium: 'text-base',
+      large: 'text-lg'
+    };
+    
+    const lineHeights = {
+      tight: 'leading-tight',
+      normal: 'leading-normal',
+      relaxed: 'leading-relaxed'
+    };
+    
+    const fontWeights = {
+      light: 'font-light',
+      normal: 'font-normal',
+      medium: 'font-medium',
+      bold: 'font-bold'
+    };
+    
+    return {
+      heading: `${headingSizes[typography.headingSize]} ${fontWeights[typography.fontWeight]} ${lineHeights[typography.lineHeight]}`,
+      body: `${bodySizes[typography.bodySize]} ${fontWeights[typography.fontWeight]} ${lineHeights[typography.lineHeight]}`
+    };
+  };
+
+  const typographyClasses = getTypographyClasses();
+
   return (
-    <div className="bg-white rounded-xl overflow-hidden shadow-2xl border border-gray-200">
+    <div 
+      className="bg-white rounded-xl overflow-hidden shadow-2xl border border-gray-200"
+      style={{ fontFamily: typography.fontFamily }}
+    >
       {/* Header */}
       <header 
         className="px-6 py-4 border-b"
@@ -44,7 +81,7 @@ export function PlatformPreview({ settings }: PlatformPreviewProps) {
               }}
             />
             <h1 
-              className="text-xl font-bold"
+              className={typographyClasses.heading}
               style={{ color: colors.text }}
             >
               {platformName}
@@ -57,13 +94,13 @@ export function PlatformPreview({ settings }: PlatformPreviewProps) {
       <section className="px-6 py-8" style={{ backgroundColor: colors.background }}>
         <div className="text-center">
           <h2 
-            className="text-2xl font-bold mb-4"
+            className={`${typographyClasses.heading} mb-4`}
             style={{ color: colors.text }}
           >
             {content.welcomeMessage}
           </h2>
           <p 
-            className="text-lg mb-6 opacity-80"
+            className={`${typographyClasses.body} mb-6 opacity-80`}
             style={{ color: colors.text }}
           >
             {content.description}
