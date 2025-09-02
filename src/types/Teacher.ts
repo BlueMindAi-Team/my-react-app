@@ -10,4 +10,7 @@ export interface Teacher {
   registrationDate: string;
   subscriptionExpiry: string;
   status: 'active' | 'expired';
+  customLogo?: string;
+  useCustomTypography: boolean;
+  typographyImage?: string;
 }

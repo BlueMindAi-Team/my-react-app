@@ -45,7 +45,8 @@ export function AddTeacherForm() {
       parentUrl,
       registrationDate: new Date().toISOString(),
       subscriptionExpiry: new Date(Date.now() + 365 * 24 * 60 * 60 * 1000).toISOString(),
-      status: 'active' as const
+      status: 'active' as const,
+      useCustomTypography: false
     };
 
     addTeacher(newTeacher);

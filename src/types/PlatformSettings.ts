@@ -28,6 +28,7 @@ export interface PlatformSettings {
     footerText: string;
   };
   theme: 'modern' | 'classic' | 'minimal' | 'vibrant';
+  selectedTeacherId?: string;
   typography: {
     fontFamily: string;
     headingSize: 'small' | 'medium' | 'large';

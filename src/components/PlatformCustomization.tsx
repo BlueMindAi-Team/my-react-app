@@ -61,6 +61,7 @@ export function PlatformCustomization() {
     { id: 'typography', label: 'Typography', icon: Type },
     { id: 'contact', label: 'Contact Info', icon: Phone },
     { id: 'content', label: 'Content', icon: Type },
+    { id: 'teacher', label: 'Teacher Design', icon: User },
     { id: 'preview', label: 'Preview', icon: Eye }
   ];
 

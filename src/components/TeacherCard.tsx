@@ -1,7 +1,8 @@
 import React, { useState } from 'react';
 import { 
   User, BookOpen, Globe, Mail, Key, Copy, Check, 
-  Calendar, Clock, Trash2, AlertCircle, ExternalLink, Square, CheckSquare
+  Calendar, Clock, Trash2, AlertCircle, ExternalLink, Square, CheckSquare,
+  Image, Upload, Type
 } from 'lucide-react';
 import { useTeacher } from '../context/TeacherContext';
 import { Teacher } from '../types/Teacher';
@@ -15,6 +16,9 @@ export function TeacherCard({ teacher, showSelection = false }: TeacherCardProps
   const { deleteTeacher, selectedTeachers, toggleTeacherSelection } = useTeacher();
   const [copiedField, setCopiedField] = useState<string | null>(null);
   const [showDeleteConfirm, setShowDeleteConfirm] = useState(false);
+  const [showCustomization, setShowCustomization] = useState(false);
+  const [tempTypographyImage, setTempTypographyImage] = useState(teacher.typographyImage || '');
+  const [tempCustomLogo, setTempCustomLogo] = useState(teacher.customLogo || '');
 
   const copyToClipboard = async (text: string, field: string) => {
     await navigator.clipboard.writeText(text);
@@ -51,10 +55,38 @@ export function TeacherCard({ teacher, showSelection = false }: TeacherCardProps
             </button>
           )}
           <div className="w-10 h-10 sm:w-12 sm:h-12 bg-gradient-to-br from-blue-500 to-emerald-500 rounded-xl flex items-center justify-center">
-            <User className="w-5 h-5 sm:w-6 sm:h-6 text-white" />
+            {teacher.customLogo ? (
+              <img 
+                src={teacher.customLogo} 
+                alt={`${teacher.name} logo`}
+                className="w-full h-full object-cover rounded-xl"
+                onError={(e) => {
+                  const target = e.target as HTMLImageElement;
+                  target.style.display = 'none';
+                  target.nextElementSibling?.classList.remove('hidden');
+                }}
+              />
+            ) : null}
+            <User className={`w-5 h-5 sm:w-6 sm:h-6 text-white ${teacher.customLogo ? 'hidden' : ''}`} />
           </div>
           <div className="min-w-0 flex-1">
-            <h3 className="text-base sm:text-lg font-semibold text-white truncate">{teacher.name}</h3>
+            {teacher.useCustomTypography && teacher.typographyImage ? (
+              <div className="mb-1">
+                <img 
+                  src={teacher.typographyImage} 
+                  alt={`${teacher.name} typography`}
+                  className="h-6 sm:h-8 object-contain"
+                  onError={(e) => {
+                    const target = e.target as HTMLImageElement;
+                    target.style.display = 'none';
+                    target.nextElementSibling?.classList.remove('hidden');
+                  }}
+                />
+                <h3 className="text-base sm:text-lg font-semibold text-white truncate hidden">{teacher.name}</h3>
+              </div>
+            ) : (
+              <h3 className="text-base sm:text-lg font-semibold text-white truncate">{teacher.name}</h3>
+            )}
             <p className="text-blue-200 flex items-center space-x-1 text-sm">
               <BookOpen className="w-4 h-4" />
               <span className="truncate">{teacher.subject}</span>
@@ -63,6 +95,13 @@ export function TeacherCard({ teacher, showSelection = false }: TeacherCardProps
         </div>
         
         <div className="flex items-center space-x-2 flex-shrink-0">
+          <button
+            onClick={() => setShowCustomization(!showCustomization)}
+            className="p-2 bg-purple-500/20 hover:bg-purple-500/30 rounded-lg transition-all duration-200 touch-manipulation"
+            title="Customize Design"
+          >
+            <Type className="w-4 h-4 text-purple-300" />
+          </button>
           <div className={`px-3 py-1 rounded-full text-xs font-medium ${
             teacher.status === 'active' 
               ? 'bg-emerald-500/20 text-emerald-300 border border-emerald-500/30'
@@ -140,6 +179,91 @@ export function TeacherCard({ teacher, showSelection = false }: TeacherCardProps
           </div>
         </div>
       </div>
+
+      {/* Customization Panel */}
+      {showCustomization && (
+        <div className="bg-white/5 rounded-lg p-4 mb-4 border border-purple-500/30">
+          <h4 className="text-white font-medium mb-4 flex items-center space-x-2">
+            <Type className="w-4 h-4 text-purple-300" />
+            <span>Design Customization</span>
+          </h4>
+          
+          <div className="space-y-4">
+            {/* Custom Logo */}
+            <div>
+              <label className="block text-blue-200 text-sm font-medium mb-2">
+                Custom Logo URL
+              </label>
+              <div className="flex space-x-2">
+                <input
+                  type="url"
+                  value={tempCustomLogo}
+                  onChange={(e) => setTempCustomLogo(e.target.value)}
+                  className="flex-1 px-3 py-2 bg-white/5 border border-white/20 rounded-lg text-white placeholder-blue-300 focus:outline-none focus:ring-2 focus:ring-purple-500 text-sm"
+                  placeholder="https://example.com/logo.png"
+                />
+                <button className="bg-purple-500/20 hover:bg-purple-500/30 text-purple-300 px-3 py-2 rounded-lg transition-all duration-200">
+                  <Upload className="w-4 h-4" />
+                </button>
+              </div>
+            </div>
+
+            {/* Typography Image */}
+            <div>
+              <label className="block text-blue-200 text-sm font-medium mb-2">
+                Typography Image URL
+              </label>
+              <div className="flex space-x-2">
+                <input
+                  type="url"
+                  value={tempTypographyImage}
+                  onChange={(e) => setTempTypographyImage(e.target.value)}
+                  className="flex-1 px-3 py-2 bg-white/5 border border-white/20 rounded-lg text-white placeholder-blue-300 focus:outline-none focus:ring-2 focus:ring-purple-500 text-sm"
+                  placeholder="https://example.com/teacher-name-design.png"
+                />
+                <button className="bg-purple-500/20 hover:bg-purple-500/30 text-purple-300 px-3 py-2 rounded-lg transition-all duration-200">
+                  <Upload className="w-4 h-4" />
+                </button>
+              </div>
+              <p className="text-purple-300 text-xs mt-1">
+                Upload a custom designed image with the teacher's name
+              </p>
+            </div>
+
+            {/* Typography Toggle */}
+            <div className="flex items-center justify-between">
+              <span className="text-blue-200 text-sm">Use Custom Typography</span>
+              <button
+                onClick={() => {
+                  // This would update the teacher's useCustomTypography setting
+                  console.log('Toggle typography for teacher:', teacher.id);
+                }}
+                className={`w-12 h-6 rounded-full transition-all duration-300 ${
+                  teacher.useCustomTypography 
+                    ? 'bg-purple-500' 
+                    : 'bg-white/20'
+                }`}
+              >
+                <div className={`w-5 h-5 bg-white rounded-full transition-all duration-300 ${
+                  teacher.useCustomTypography ? 'translate-x-6' : 'translate-x-0.5'
+                }`}></div>
+              </button>
+            </div>
+
+            {/* Save Button */}
+            <button
+              onClick={() => {
+                // This would save the customization settings
+                console.log('Save customization for teacher:', teacher.id);
+                setShowCustomization(false);
+              }}
+              className="w-full bg-purple-500 hover:bg-purple-600 text-white py-2 px-4 rounded-lg transition-all duration-200 text-sm font-medium"
+            >
+              Save Design Changes
+            </button>
+          </div>
+        </div>
+      )}
 
       {/* Delete Button */}
       <div className="border-t border-white/10 pt-4">
