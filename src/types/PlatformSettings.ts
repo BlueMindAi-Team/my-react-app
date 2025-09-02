@@ -28,4 +28,11 @@ export interface PlatformSettings {
     footerText: string;
   };
   theme: 'modern' | 'classic' | 'minimal' | 'vibrant';
+  typography: {
+    fontFamily: string;
+    headingSize: 'small' | 'medium' | 'large';
+    bodySize: 'small' | 'medium' | 'large';
+    lineHeight: 'tight' | 'normal' | 'relaxed';
+    fontWeight: 'light' | 'normal' | 'medium' | 'bold';
+  };
 }

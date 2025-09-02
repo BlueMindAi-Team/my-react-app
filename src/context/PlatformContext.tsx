@@ -34,7 +34,14 @@ const defaultSettings: PlatformSettings = {
     welcomeMessage: 'Welcome to our educational platform where learning meets innovation',
     footerText: 'Transforming education for the digital age'
   },
-  theme: 'modern'
+  theme: 'modern',
+  typography: {
+    fontFamily: 'Inter, system-ui, sans-serif',
+    headingSize: 'medium',
+    bodySize: 'medium',
+    lineHeight: 'normal',
+    fontWeight: 'normal'
+  }
 };
 
 const PlatformContext = createContext<PlatformContextType | undefined>(undefined);

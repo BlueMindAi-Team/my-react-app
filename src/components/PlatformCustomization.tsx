@@ -58,6 +58,7 @@ export function PlatformCustomization() {
   const sections = [
     { id: 'general', label: 'General', icon: Type },
     { id: 'colors', label: 'Colors & Theme', icon: Palette },
+    { id: 'typography', label: 'Typography', icon: Type },
     { id: 'contact', label: 'Contact Info', icon: Phone },
     { id: 'content', label: 'Content', icon: Type },
     { id: 'preview', label: 'Preview', icon: Eye }
