@@ -9,6 +9,7 @@ import { PlatformPreview } from './PlatformPreview';
 
 export function PlatformCustomization() {
   const { settings, updateSettings } = usePlatform();
+  const { teachers } = useTeacher();
   const [activeSection, setActiveSection] = useState<'general' | 'colors' | 'contact' | 'content' | 'preview'>('general');
   const [tempSettings, setTempSettings] = useState(settings);
   const [isSaving, setIsSaving] = useState(false);
@@ -61,7 +62,6 @@ export function PlatformCustomization() {
     { id: 'typography', label: 'Typography', icon: Type },
     { id: 'contact', label: 'Contact Info', icon: Phone },
     { id: 'content', label: 'Content', icon: Type },
-    { id: 'teacher', label: 'Teacher Design', icon: User },
     { id: 'preview', label: 'Preview', icon: Eye }
   ];
 
