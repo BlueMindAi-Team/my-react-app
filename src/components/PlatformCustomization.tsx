@@ -5,6 +5,7 @@ import {
   Upload, AlignLeft, AlignCenter, AlignRight, Eye
 } from 'lucide-react';
 import { usePlatform } from '../context/PlatformContext';
+import { useTeacher } from '../context/TeacherContext';
 import { PlatformPreview } from './PlatformPreview';
 
 export function PlatformCustomization() {
